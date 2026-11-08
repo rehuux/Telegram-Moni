@@ -1,5 +1,15 @@
 const fs = require('fs');
 const path = require('path');
+function fmtNum(value) {
+  if (value === null || value === undefined || value === '') return '0';
+  const num = Number(value);
+  if (!Number.isFinite(num)) return '0';
+  if (num >= 1_000_000_000) return `${(num / 1_000_000_000).toFixed(1).replace(/\.0$/, '')}B`;
+  if (num >= 1_000_000) return `${(num / 1_000_000).toFixed(1).replace(/\.0$/, '')}M`;
+  if (num >= 1_000) return `${(num / 1_000).toFixed(1).replace(/\.0$/, '')}K`;
+  return Math.trunc(num).toLocaleString('en-US');
+}
+
 function parseNum(str) {
   if (!str) return null;
   str = str.trim();
